@@ -79,7 +79,18 @@ public class UserController {
         return found;
     }
 
-
+    //20230919 加上Patch方法 By Zhi Xuan You
+    //修改user
+    @PatchMapping("/{name}")
+    public User modifyUser2(@PathVariable String name, @RequestBody User user) {
+        User found = users.stream()
+                .filter(u -> u.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + name + " not found"));
+        //found.setName(user.getName()); //如果連名稱都要修改就把這行打開唄
+        found.setAge(user.getAge());
+        return found;
+    }
 
     //刪除user
     @DeleteMapping("/{name}")
