@@ -24,6 +24,7 @@ public class UserController {
     //要改成下面這種ArrayList,才可以修改內容
     private List<User> users = new ArrayList<>(Arrays.asList(
             new User("Jason", 20),
+            new User("Jason", 30),
             new User("Alan", 22),
             new User("David", 21),
             new User("Monika", 20),
@@ -45,7 +46,7 @@ public class UserController {
     public User getUserBy(@PathVariable String name) {
         return users.stream()
                 .filter(user -> user.getName().equals(name))
-                .findFirst()
+                .findFirst() //name如果相同的話,只取第一筆
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + name + " not found"));
     }
 
