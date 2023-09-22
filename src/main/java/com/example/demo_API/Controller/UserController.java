@@ -94,8 +94,8 @@ public class UserController {
     }
 
     //刪除user
-    @DeleteMapping("/{name}")
-    public List<User> removeUser(@PathVariable String name) {
+    /*@DeleteMapping("/{name}")
+    public List<User> removeUser(@PathVariable String name, @RequestBody User Xuser) {
         User found = users.stream()
                 .filter(user -> user.getName().equals(name))
                 .findFirst()
@@ -103,6 +103,19 @@ public class UserController {
 
         users.remove(found);
         return users; //這邊列出刪除user後剩下的所有user資料,比較好確認此user是否真的有被remove
+    }*/
+    //20230922 刪除方法改成可以傳入body By Zhi Xuan You
+    @DeleteMapping
+    public List<User> removeUser(@RequestBody User xUser) {
+        String name = xUser.getName(); // 假設您從 User 對象中獲取要刪除的用戶名稱
+
+        User found = users.stream()
+                .filter(user -> user.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + name + " not found"));
+
+        users.remove(found);
+        return users;
     }
 }
 
